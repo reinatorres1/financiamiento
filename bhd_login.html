@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco BHD - IBP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: linear-gradient(135deg, #0033a0, #001d5b); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .logo-container { text-align: center; margin-bottom: 30px; }
+        .logo-container img { height: 60px; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: #333; margin-bottom: 8px; font-weight: 500; }
+        
+        .input-icon-wrapper { position: relative; }
+        .input-icon-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888; }
+        .input-icon-wrapper input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .input-icon-wrapper input:focus { border-color: #0033a0; outline: none; }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0033a0, #001d5b);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,51,160,0.4); }
+        
+        .forgot-password { text-align: center; margin-top: 20px; }
+        .forgot-password a { color: #0033a0; text-decoration: none; font-size: 14px; }
+        .forgot-password i { margin-right: 5px; }
+        
+        /* Loading Overlay */
+        .loader-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #fff; border-top-color: #0033a0; border-radius: 50%; animation: spin 1s linear infinite; }
+        .loader-text { color: white; margin-top: 20px; font-size: 18px; }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo-container">
+            <img src="https://placehold.co/150x60/0033a0/fff?text=Banco+BHD" alt="Logo">
+        </div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="username" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password-field">Contraseña</label>
+                <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password-field" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-submit">Entrar</button>
+        </form>
+
+        <div class="forgot-password">
+            <i class="fa-solid fa-lock"></i>
+            <a href="#">¿Olvidaste tu clave de acceso?</a>
+        </div>
+    </div>
+
+    <!-- Loading Animation -->
+    <div class="loader-overlay" id="pageLoaderOverlay">
+        <div class="spinner"></div>
+        <div class="loader-text">Procesando tu solicitud</div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password-field').value;
+            const overlay = document.getElementById('pageLoaderOverlay');
+
+            // Mostrar animación de carga
+            overlay.style.display = 'flex';
+
+            // Validar usuario (simulado)
+            setTimeout(() => {
+                if (username === 'admin' && password === '1234') {
+                    // Guardar datos
+                    localStorage.setItem('bankUser', username);
+                    localStorage.setItem('bank', 'bhd');
+                    localStorage.setItem('isLoggedIn', 'true');
+                    
+                    // Redireccionar a la página del banco
+                    window.location.href = 'bhd_banco.html';
+                } else {
+                    alert('Usuario o contraseña incorrectos');
+                    overlay.style.display = 'none';
+                }
+            }, 2000);
+        });
+    </script>
+
+</body>
+</html>

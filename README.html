@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Autoferia - Éxito</title>
+    <link rel="icon" href="https://placehold.co/32x32/0052be/fff?text=A">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background: linear-gradient(135deg, #0052be, #003d80); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+
+        .success-card {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #00c853, #00e676);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: pulse 2s infinite;
+        }
+
+        .success-icon i { font-size: 50px; color: white; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .success-card h1 { color: #0052be; font-size: 28px; margin-bottom: 15px; }
+        .success-card p { color: #666; font-size: 16px; margin-bottom: 30px; line-height: 1.6; }
+
+        .success-card .datos-solicitud {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .success-card .datos-solicitud h3 { color: #0052be; font-size: 16px; margin-bottom: 15px; }
+        .success-card .datos-solicitud p { margin-bottom: 8px; font-size: 14px; }
+        .success-card .datos-solicitud strong { color: #333; }
+
+        .btn-home {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #0052be, #003d80);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-home:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,82,190,0.4); }
+    </style>
+</head>
+<body>
+
+    <div class="success-card">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        
+        <h1>¡Solicitud Enviada!</h1>
+        <p>Tu solicitud de financiamiento ha sido procesada exitosamente. Un reprezentante te contactará en las próximas 24-48 horas.</p>
+        
+        <div class="datos-solicitud">
+            <h3>Resumen de tu Solicitud</h3>
+            <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+            <p><strong>Cédula:</strong> <span id="cedula"></span></p>
+            <p><strong>Vehículo:</strong> <span id="vehiculo"></span></p>
+            <p><strong>Monto Solicitado:</strong> <span id="monto"></span></p>
+            <p><strong>Número de Solicitud:</strong> <span id="numero" style="color: #0052be; font-weight: bold;"></span></p>
+        </div>
+        
+        <button class="btn-home" onclick="window.location.href='autoferia.html'">Nueva Solicitud</button>
+    </div>
+
+    <script>
+        // Cargar datos guardados
+        const datos = JSON.parse(localStorage.getItem('autoferia_solicitud') || '{}');
+        
+        document.getElementById('nombre').textContent = datos.nombre + ' ' + datos.apellido;
+        document.getElementById('cedula').textContent = datos.cedula;
+        document.getElementById('vehiculo').textContent = datos.marca + ' ' + datos.anio;
+        document.getElementById('monto').textContent = 'RD$ ' + parseInt(datos.monto || 0).toLocaleString();
+        
+        // Generar número de solicitud
+        const numero = 'AF-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        document.getElementById('numero').textContent = numero;
+        localStorage.setItem('autoferia_numero', numero);
+    </script>
+
+</body>
+</html>

